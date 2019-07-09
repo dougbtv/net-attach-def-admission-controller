@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/K8sNetworkPlumbingWG/net-attach-def-admission-controller/pkg/isolate"
 	"github.com/K8sNetworkPlumbingWG/net-attach-def-admission-controller/pkg/webhook"
 	"github.com/golang/glog"
 )
@@ -36,12 +37,19 @@ func main() {
 	/* init API client */
 	webhook.SetupInClusterClient()
 
+	// init the isolate
+	err := isolate.Initialize()
+	if err != nil {
+		glog.Fatalf("error initializing dynamic isolation webhook configuration routines: %s", err.Error())
+
+	}
+
 	/* register handlers */
 	http.HandleFunc("/validate", webhook.ValidateHandler)
 	http.HandleFunc("/isolate", webhook.IsolateHandler)
 
 	/* start serving */
-	err := http.ListenAndServeTLS(fmt.Sprintf("%s:%d", *address, *port), *cert, *key, nil)
+	err = http.ListenAndServeTLS(fmt.Sprintf("%s:%d", *address, *port), *cert, *key, nil)
 	if err != nil {
 		glog.Fatalf("error starting web server: %s", err.Error())
 	}

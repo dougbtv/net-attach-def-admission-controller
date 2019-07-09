@@ -26,6 +26,7 @@ spec:
       labels:
         app: net-attach-def-admission-controller
     spec:
+      serviceAccount: net-attach-def-admission-controller-sa
       containers:
       - name: net-attach-def-admission-controller
         image: nfvpe/net-attach-def-admission-controller:snapshot

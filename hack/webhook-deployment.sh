@@ -54,3 +54,4 @@ cat ${BASE_DIR}/deployments/webhook.yaml | \
 	kubectl -n ${NAMESPACE} create -f -
 
 kubectl -n ${NAMESPACE} create -f ${BASE_DIR}/deployments/deployment.yaml
+kubectl -n ${NAMESPACE} create -f ${BASE_DIR}/deployments/rbac.yaml

@@ -1,2 +1,5 @@
 ./gopath
 ./bin
+bin/
+go.mod
+go.sum
