@@ -182,6 +182,29 @@ func createValidatingWebhookConfiguration(certificate []byte) error {
             },
           },
         },
+        NamespaceSelector: &metav1.LabelSelector{
+          MatchExpressions: []metav1.LabelSelectorRequirement{
+            {
+              Key:      "Name",
+              Operator: metav1.LabelSelectorOpIn,
+              Values:   []string{"doug", "default"},
+            },
+          },
+          // Key:      "name",
+          // Operator: metav1.LabelSelectorOpIn,
+          // Value:    []string{"default", "doug"},
+          // //  {
+          // //    Key:      "runlevel",
+          // //    Operator: metav1.LabelSelectorOpNotIn,
+          // //    Value:    []string{"0", "1"},
+          // //  },
+
+          // This compiled and showed results in kube, but, I don't think it did what we expected...
+          // MatchLabels: map[string]string{
+          //   "default": "enabled",
+          //   "doug":    "enabled",
+          // },
+        },
       },
     },
   }
@@ -189,6 +212,39 @@ func createValidatingWebhookConfiguration(certificate []byte) error {
   _, err := clientset.AdmissionregistrationV1beta1().ValidatingWebhookConfigurations().Create(configuration)
   return err
 }
+
+// This compiled and showed results in kube, but, I don't think it did what we expected...
+// MatchLabels: map[string]string{
+//   "default": "enabled",
+//   "doug":    "enabled",
+// },
+
+// Only objects in matching namespaces are subjected to this webhook.
+// LabelSelector.MatchExpressions allows exclusive as well as inclusive
+// matching, so you can use this // selector as a whitelist or a blacklist.
+// For example, to apply the webhook to all namespaces except for those have
+// labels with key "runlevel" and value equal to "0" or "1":
+// metav1.LabelSelctor{MatchExpressions: []LabelSelectorRequirement{
+//  {
+//    Key:      "runlevel",
+//    Operator: metav1.LabelSelectorOpNotIn,
+//    Value:    []string{"0", "1"},
+//  },
+// }}
+// As another example, to only apply the webhook to the namespaces that have
+// labels with key “environment” and value equal to “prod” and “staging”:
+// metav1.LabelSelctor{MatchExpressions: []LabelSelectorRequirement{
+//  {
+//    Key:      "environment",
+//    Operator: metav1.LabelSelectorOpIn,
+//    Value:    []string{"prod", "staging"},
+//  },
+// }}
+// See https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ for more examples of label selectors.
+
+// namespaceSelector:
+//       matchLabels:
+//         default: enabled
 
 // ClientConfig: arv1beta1.WebhookClientConfig{
 //   CABundle: certificate,

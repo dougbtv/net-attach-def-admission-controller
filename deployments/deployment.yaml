@@ -42,8 +42,14 @@ spec:
         - name: webhook-certs
           mountPath: /etc/webhook
           readOnly: True
-        imagePullPolicy: Always
-        #imagePullPolicy: IfNotPresent
+        imagePullPolicy: IfNotPresent
+        #imagePullPolicy: Always
+      # This should be removed before Pull request!
+      nodeSelector:
+        dedicated: master
+      tolerations:
+      - key: node.kubernetes.io/disk-pressure
+        operator: Exists
       volumes:
       - name: webhook-certs
         secret:

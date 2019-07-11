@@ -3,12 +3,14 @@ module github.com/K8sNetworkPlumbingWG/net-attach-def-admission-controller
 go 1.12
 
 require (
+	github.com/cloudflare/cfssl v0.0.0-20190627231140-2001f384ec4f
 	github.com/containernetworking/cni v0.7.0-alpha1
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/ghodss/yaml v0.0.0-20150909031657-73d445a93680 // indirect
 	github.com/gogo/protobuf v0.0.0-20170330071051-c0656edd0d9e // indirect
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/google/btree v0.0.0-20160524151835-7d79101e329e // indirect
+	github.com/google/certificate-transparency-go v1.0.21 // indirect
 	github.com/google/gofuzz v0.0.0-20161122191042-44d81051d367 // indirect
 	github.com/googleapis/gnostic v0.0.0-20170729233727-0c5108395e2d // indirect
 	github.com/gregjones/httpcache v0.0.0-20170728041850-787624de3eb7 // indirect
